@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  load-balancer:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./config.json:/app/config.json
+    networks:
+      - lb-network
+  backend1:
+    image: hashicorp/http-echo:latest
+    command: ["-text=hello from backend1"]
+    networks:
+      - lb-network
+  backend2:
+    image: hashicorp/http-echo:latest
+    command: ["-text=hello from backend2"]
+    networks:
+      - lb-network
+  backend3:
+    image: hashicorp/http-echo:latest
+    command: ["-text=hello from backend3"]
+    networks:
+      - lb-network
+
+networks:
+  lb-network:
